@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdlib.h>
 #include <locale>
 #include <cstdlib>
 #include <windows.h>
@@ -45,15 +46,17 @@ float pagamento(float preco)
     while(total<preco)
     {
         cout << "Inserir moeda (0.05 0.10 0.20 0.50 1 2): ";
+        
         cin >> moeda;
 
-        if(moeda==0.05 || moeda==0.10 || moeda==0.20 || moeda==0.50 || moeda==1 || moeda==2)
+        if(abs (moeda-0.05) < 0.001 || abs (moeda-0.10) < 0.001 || abs (moeda-0.20) < 0.001 || abs (moeda-0.50) < 0.001 || abs (moeda-1.00) < 0.001 || abs (moeda-2.00) < 0.001)
         {
             total+=moeda;
             cout << "Total inserido: " << total << endl;
         }
         else
             cout << "Moeda invalida\n";
+            system("cls");
     }
 
     float troco = total-preco;
@@ -78,6 +81,7 @@ int escolherAcucar()
 
         if(nivel<0 || nivel>2)
             cout << "Opcao invalida\n";
+            system("cls");
 
     }while(nivel<0 || nivel>2);
 
@@ -115,7 +119,25 @@ void relatorio()
 
     cout << "Total vendas: " << totalVendas << " EUR\n";
 }
+void talao(string produto, float preco, float pago, float troco)
+{
+    char op;
 
+    cout << "Deseja talao? (s/n): ";
+    cin >> op;
+
+    if(op=='s' || op=='S')
+    {
+        cout << "\n----- TALAO -----\n";
+        cout << "Produto: " << produto << endl;
+        cout << "Preco: " << preco << " EUR\n";
+        cout << "Pago: " << pago << " EUR\n";
+        cout << "Troco: " << troco << " EUR\n";
+        cout << "-----------------\n";
+        system("pause");
+        system("cls");
+    }
+}
 void modoGestao()
 {
     int pin;
@@ -178,7 +200,7 @@ void modoGestao()
 
 int main()
 {
-    setlocale(LC_ALL,"");
+    setlocale(LC_ALL,"portuguese");
 
     int opcao;
 
@@ -215,6 +237,8 @@ int main()
         escolherAcucar();
 
         entregar();
+
+        talao(produtos[opcao-1],precos[opcao-1],precos[opcao-1],0);
 
         stock[opcao-1]--;
 
